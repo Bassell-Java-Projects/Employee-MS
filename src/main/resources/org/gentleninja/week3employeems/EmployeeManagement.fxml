@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.gentleninja.week3employeems.controller.EmployeeController"
+            prefWidth="1000" prefHeight="650"
+            style="-fx-background-color: #1e1e2e;">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #2a2a3d; -fx-padding: 15;">
+            <Label text="Employee Management System"
+                   style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Search -->
+            <TextField fx:id="searchField" promptText="Search by name..."
+                       prefWidth="200"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray; -fx-background-radius: 5;"/>
+            <Button text="Search" onAction="#handleSearch"
+                    style="-fx-background-color: #5865f2; -fx-text-fill: white;
+                           -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="Clear" onAction="#handleClear"
+                    style="-fx-background-color: #4a4a5d; -fx-text-fill: white;
+                           -fx-background-radius: 5; -fx-cursor: hand;"/>
+        </HBox>
+    </top>
+
+    <!-- LEFT SIDEBAR — Filters & Sort -->
+    <left>
+        <VBox spacing="12" prefWidth="200"
+              style="-fx-background-color: #2a2a3d; -fx-padding: 20;">
+
+            <Label text="Filter by Department"
+                   style="-fx-text-fill: #aaaacc; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="departmentFilter" promptText="All Departments"
+                      maxWidth="Infinity" onAction="#handleDepartmentFilter"
+                      style="-fx-background-color: #3a3a4d; -fx-text-fill: white;"/>
+
+            <Label text="Min Performance Rating"
+                   style="-fx-text-fill: #aaaacc; -fx-font-weight: bold;"/>
+            <TextField fx:id="minRatingField" promptText="e.g. 4.5"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+            <Button text="Apply Rating Filter" onAction="#handleRatingFilter"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #5865f2; -fx-text-fill: white;
+                           -fx-background-radius: 5; -fx-cursor: hand;"/>
+
+            <Separator style="-fx-background-color: #4a4a5d;"/>
+
+            <Label text="Sort Employees"
+                   style="-fx-text-fill: #aaaacc; -fx-font-weight: bold;"/>
+            <ComboBox fx:id="sortOptions" promptText="Sort by..."
+                      maxWidth="Infinity" onAction="#handleSort"
+                      style="-fx-background-color: #3a3a4d; -fx-text-fill: white;"/>
+
+            <Separator style="-fx-background-color: #4a4a5d;"/>
+
+            <Label text="Quick Stats"
+                   style="-fx-text-fill: #aaaacc; -fx-font-weight: bold;"/>
+            <Label fx:id="totalEmployeesLabel" text="Total: 0"
+                   style="-fx-text-fill: white;"/>
+            <Label fx:id="totalSalaryLabel" text="Salary Sum: 0"
+                   style="-fx-text-fill: white;"/>
+            <Label fx:id="top5Label" text="Top 5 Paid: -"
+                   style="-fx-text-fill: white; -fx-wrap-text: true;"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER — Table -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <TableView fx:id="employeeTable" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: #2a2a3d; -fx-text-fill: white;">
+                <columns>
+                    <TableColumn fx:id="idCol"         text="ID"          prefWidth="60"/>
+                    <TableColumn fx:id="nameCol"       text="Full Name"   prefWidth="160"/>
+                    <TableColumn fx:id="deptCol"       text="Department"  prefWidth="120"/>
+                    <TableColumn fx:id="salaryCol"     text="Salary"      prefWidth="100"/>
+                    <TableColumn fx:id="ratingCol"     text="Performance" prefWidth="110"/>
+                    <TableColumn fx:id="expCol"        text="Experience"  prefWidth="100"/>
+                    <TableColumn fx:id="activeCol"     text="Active"      prefWidth="70"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- BOTTOM — Add / Remove -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color: #2a2a3d; -fx-padding: 15;">
+
+            <TextField fx:id="idInput"         promptText="ID"
+                       prefWidth="60"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+            <TextField fx:id="nameInput"       promptText="Full Name"       prefWidth="140"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+            <TextField fx:id="deptInput"       promptText="Department"      prefWidth="110"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+            <TextField fx:id="salaryInput"     promptText="Salary"          prefWidth="90"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+            <TextField fx:id="ratingInput"     promptText="Rating"          prefWidth="70"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+            <TextField fx:id="expInput"        promptText="Exp (yrs)"       prefWidth="80"
+                       style="-fx-background-color: #3a3a4d; -fx-text-fill: white;
+                              -fx-prompt-text-fill: gray;"/>
+
+            <Button text="Add Employee"    onAction="#handleAdd"
+                    style="-fx-background-color: #43b581; -fx-text-fill: white;
+                           -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="Remove Selected" onAction="#handleRemove"
+                    style="-fx-background-color: #f04747; -fx-text-fill: white;
+                           -fx-background-radius: 5; -fx-cursor: hand;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text=""
+                   style="-fx-text-fill: #aaaacc; -fx-font-style: italic;"/>
+        </HBox>
+    </bottom>
+</BorderPane>
